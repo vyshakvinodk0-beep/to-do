@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask To-Do List</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f2f2f2; padding: 30px; }
+        h1 { color: #333; }
+        form { margin-bottom: 20px; }
+        input[type=text] { padding: 8px; width: 250px; }
+        button { padding: 8px 12px; margin-left: 5px; }
+        ul { list-style: none; padding: 0; }
+        li { background: white; padding: 10px; margin: 5px 0; border-radius: 5px; }
+        .done { text-decoration: line-through; color: gray; }
+        .logout { float: right; }
+    </style>
+</head>
+<body>
+    <h1>📝 {{ username }}'s To-Do List <a href="/logout" class="logout">🚪 Logout</a></h1>
+
+    <form action="/add" method="POST">
+        <input type="text" name="task" placeholder="Enter new task..." required>
+        <button type="submit">Add</button>
+    </form>
+
+    <ul>
+        {% for task in tasks %}
+            <li class="{{ 'done' if task['status'] == 'done' else '' }}">
+                {{ task['task'] }}
+                {% if task['status'] == 'pending' %}
+                    <a href="/done/{{ task['id'] }}">✔ Done</a>
+                {% endif %}
+                <a href="/delete/{{ task['id'] }}">❌ Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
